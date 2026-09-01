@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+using namespace chrono;
 
 void exibir(vector<int> &v)
 {
@@ -23,16 +24,16 @@ int binaria(vector<int> &v, int chave)
     {
         int m = (f - i) / 2 + i;
         if (v[m] == chave)
-            return chave;
+            return m;
         else if (v[m] > chave)
             f = m - 1;
         else if (v[m] < chave)
             i = m + 1;
-
-        return -1;
+        
     }
+    return -1;
 }
-void selecao(vector<int> &v)
+void selection(vector<int> &v)
 {
     int id_menor = 0, j = 0;
     for (int j = 0; j < v.size(); j++)
@@ -43,18 +44,54 @@ void selecao(vector<int> &v)
         swap(v[j], v[v.size() + j - 1]);
     }
 }
+void BubbleSort(vector<int> &v){
+    for (int j = 0; j < v.size() - 1; j++){
+        bool  ordenado = true;
+        for (int i = 0; i < v.size() - j; i++)
+            if(v[i-1] > v[i]){
+                swap(v[i-1], v[i]); 
+                ordenado = false;
+            }
+            if(ordenado){
+                // cout  << ">> iterações: " << j + 1 << endl; 
+                break;}
+    }
+}
+void insertion(vector<int> &v){
+    
+    for (int j = 1; j < v.size() ; j++){
+        int i, atual = v[j];
+        for (i = 0; i >= 0; i--){
+            if(atual < v[i])
+                v[i+1] = v[i];
+                    else    
+                        break;
+            }
+            v[i+1] = atual;
+    }  
+}
 
 int main()
 {
-
     srand(time(NULL));
     vector<int> vet;
-    for (int i = 0; i <= 10; i++)
+    for (int i = 0; i <= 1000000000; i++)
         vet.push_back(i + rand() % 100);
-    exibir(vet);
+    //exibir(vet);
     cout << endl;
-    int chave = vet[4];
-    cout << "Busca por " << chave << (sequencial(vet, chave) ? "" : "não") << "encontrado\n";
+    // int chave = vet[4];
+    // cout << "Busca por " << chave << (sequencial(vet, chave) ? "" : "não") << "encontrado\n";
+
+    auto ini = high_resolution_clock().now();
+    insertion(vet);
+    auto fim = high_resolution_clock().now();
+    auto intervalo = fim - ini;
+    cout << fixed << setprecision(6);
+    cout << duration_cast<seconds>(intervalo).count() << " s" << endl;
+    cout << duration_cast<milliseconds>(intervalo).count() << " ms" << endl;
+    cout << duration_cast<microseconds>(intervalo).count() << " us" << endl;
+
+
 }
 // è dito O(n) quando ele pe linear cresce proposrcional ao tamanho do vetor.
 // se a complexidade é constante ela é omega.
